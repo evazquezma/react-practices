@@ -1,7 +1,27 @@
 import React, { Component } from 'react';
 import './App.css';
+import styled from 'styled-components';
 import Person from './Person/Person.js'
 
+
+
+const StyledButton = styled.button`
+		background-color: ${(props) => props.alterado ? 'red' : 'green'};
+		color: white;
+		font: inherit;
+		border: 1px solid blue;
+		font: inherit;
+		padding: 8px;
+		cursor: pointer;
+		
+		
+		&:hover {
+			background-color : ${(props) => props.alterado ? 'salmon' : 'lightgreen'};
+			color: black;
+		}
+	`;
+		
+		
 class App extends Component {
 	//Cuando cambia state, react refresca el DOM
 	state = {
@@ -61,13 +81,6 @@ class App extends Component {
 	
 	render() {
 		console.log("Haciendo render de App");
-		const myStyle = {
-			backgroundColor: 'withe',
-			font: 'inherit',
-			border: '1px solid blue',
-			padding: '8px',
-			cursor: 'pointer'
-		}
 	
 		let persons = null;
 		if (this.state.showPersons) {
@@ -81,21 +94,31 @@ class App extends Component {
 					})
 				}
 				</div>
-			);
+			);	
+
+			
 		}
 	
+		//Calcular la clase CSS dinámicamente
+		const classes = [];
+		if (this.state.persons.length <= 2) {
+			classes.push('red');
+		}
+		if (this.state.persons.length <= 1) {
+			classes.push('bold');
+		}
+		
+		
 		return (
-			  <div className="App">
-				<h1>Hola mundo React App</h1>
-				<p>This is really working!!</p>
-				{/*Mejor usar el bind()*/}
-				<button style={myStyle} onClick={this.togglePersonHandler}>Visibilizar/Ocultar personas</button>
-				
-				{persons}										
-				
-				<Person name='Luiz Alfozo' age='25'/>
-			  </div>		
-			);	
+		  <div className="App">
+			<h1>Hola mundo React App</h1>
+			<p className={classes.join(' ')}>This is really working!!</p>
+			{/*Mejor usar el bind()*/}
+			<StyledButton alterado={this.state.showPersons} onClick={this.togglePersonHandler}>Visibilizar/Ocultar personas</StyledButton>
+			
+			{persons}																	
+		  </div>			  
+		);	
 			//return React.createElement('div', {className: 'App'}, React.createElement('h1', null, 'Hola mundo React App2!!!!'));
   }
 }

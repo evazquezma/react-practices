@@ -4,6 +4,11 @@ import classes from './Person.css';
 
 //ES6 equivalent function
 const person = (props) => {	
+
+	const rnd = Math.random();
+	if (rnd > 0.7) {
+		throw new Error ('Boooom');
+	}
 	
 	return (
 		<div className={classes.Person}>
